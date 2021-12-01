@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
     <!-- Loading Bootstrap -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -27,7 +28,7 @@
     <link href="{{ asset('assets/css/flat-ui.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<body>
     <div id="app">
         @include('layouts/navbar')
 

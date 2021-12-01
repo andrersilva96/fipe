@@ -17,3 +17,4 @@ Auth::routes(['reset' => false]);
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::match(['get', 'post'], '/home', 'HomeController@home')->name('home');
+Route::match(['get', 'post'], '/tip/{tip}', 'TipController@index')->name('tip');
