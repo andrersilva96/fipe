@@ -27,7 +27,7 @@
     <link href="{{ asset('assets/css/flat-ui.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
     <div id="app">
         @include('layouts/navbar')
 
