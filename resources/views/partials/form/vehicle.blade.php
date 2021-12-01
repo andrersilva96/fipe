@@ -1,9 +1,10 @@
 <form method="POST">
+    @csrf
     <div class="row">
         <div class="col-12 col-lg-3">
             <div class="mb-3">
-                <label for="vehicle" class="form-label">Veículo</label>
-                <select required id="vehicle" name="vehicle" class="form-select">
+                <label for="type" class="form-label">Veículo</label>
+                <select required id="type" name="type" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     <option value="motos">Moto</option>
                     <option value="carros">Carro</option>
@@ -24,6 +25,7 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="model" class="form-label">Modelo</label>
+                <input type="hidden" name="fipe" id="fipe">
                 <select required id="model" name="model" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                 </select>
@@ -33,7 +35,7 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="year" class="form-label">Ano</label>
-                <select required id="year" name="year" class="form-select">
+                <select id="year" name="year" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                 </select>
             </div>
@@ -41,7 +43,7 @@
 
         <div class="col-12">
             <div class="mb-3">
-                <textarea name="tip" class="form-control"  class="col-12" rows="3"></textarea>
+                <textarea required name="observation" class="form-control"  class="col-12" rows="3"></textarea>
             </div>
         </div>
 
@@ -57,7 +59,7 @@
     <script>
         var api = 'https://wbinary.com/api/fipe/eb13596d33d4b89ead7e58c5b8d6f866/';
 
-        $('#vehicle').change(function() {
+        $('#type').change(function() {
             $('#brand').html('<option value="" selected disabled>Selecione uma opção</option>')
             $.ajax({
                 url: api + $(this).val() + "/brands",
@@ -81,7 +83,7 @@
                 success: function(res) {
                     if (res.success) {
                         res.data.forEach(e => {
-                            $('#model').append('<option value="' + e.fipe + '">' + e.name +
+                            $('#model').append('<option data-value="' + e.fipe + '">' + e.name +
                                 '</option>')
                         });
                     }
@@ -90,14 +92,16 @@
         })
 
         $('#model').change(function() {
+            const fipe = $(this).find(':selected').data('value')
             $('#year').html('<option value="" selected disabled>Selecione uma opção</option>')
+            $('#fipe').val(fipe)
             $.ajax({
-                url: api + $(this).val() + "/year",
+                url: api + fipe + "/year",
                 cache: false,
                 success: function(res) {
                     if (res.success) {
                         res.data.forEach(e => {
-                            $('#year').append('<option>' + e + '</option>')
+                            if (e <= new Date().getFullYear()) $('#year').append('<option>' + e + '</option>')
                         });
                     }
                 }

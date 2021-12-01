@@ -51,4 +51,9 @@ class User extends Authenticatable
             $model->color = Color::generate();
         });
     }
+
+    public function tips()
+    {
+        return $this->hasMany(Tip::class);
+    }
 }
