@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tip;
+use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,6 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        $tips = Tip::paginate(25 ?? $request->input('perPage'));
-        return view('home', ['tips' => $tips]);
+        return view('home', ['tips' => Helper::paginate(Tip::all())]);
     }
 }

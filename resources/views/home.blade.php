@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        @include('partials.paginator', ['pag' => $tips])
+
         @auth
             <div class="d-flex justify-content-center justify-content-lg-start">
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="#form-vehicle" role="button" aria-expanded="false"
@@ -18,7 +20,7 @@
         @if ($tips->items())
             <h6 class="pb-2 mb-0">Dicas Recentes</h6>
             @foreach ($tips as $tip)
-                <div href="{{ route('tip', $tip) }}" class="tip card-body bg-light rounded pointer">
+                <div href="{{ route('tip', $tip) }}" class="tip card-body bg-light mb-3 rounded pointer">
                     <span class="badge rounded-pill" style="background-color: #1ABC9C">{{ $tip->type }}</span>
                     <span class="badge rounded-pill" style="background-color: #1ABC9C">{{ $tip->brand }}</span>
                     <span class="badge rounded-pill" style="background-color: #1ABC9C">{{ $tip->model }}</span>
@@ -35,8 +37,11 @@
                                 <rect width="100%" height="100%" fill="{{ $tip->user->color }}" /><text x="50%" y="50%"
                                     fill="{{ $tip->user->color }}" dy=".3em"></text>
                             </svg>
-                            <p class="small mb-0 ms-2">{{ $tip->user->name }}
-                                {{ $tip->user_id === Auth::id() ? '(você)' : '' }}</p>
+                            <p class="small mb-0 ms-2">
+                                {{ $tip->user->name }}
+                                {{ $tip->user_id === Auth::id() ? '(você)' : '' }}
+                                <a href="mailto:{{ $tip->user->email }}">{{ $tip->user->email }}</a>
+                            </p>
                         </div>
                     </div>
                 </div>
