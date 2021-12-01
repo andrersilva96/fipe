@@ -49,7 +49,6 @@
             </div>
         @endif
 
-
         @include('partials.paginator', ['pag' => $tips])
     </div>
 @endsection

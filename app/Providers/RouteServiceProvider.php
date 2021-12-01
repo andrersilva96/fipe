@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Tip;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::model('tip', Tip::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
