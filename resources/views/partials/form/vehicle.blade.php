@@ -1,13 +1,15 @@
 @php($vehicles = ['motos' => 'Moto', 'carros' => 'Carro', 'caminhoes' => 'Caminhão'])
 @php($tip = isset($tip) ? $tip : null)
+@php($search = isset($search) ? $search : null)
 
-<form method="POST">
+<form method="{{ $search ? 'GET' : 'POST' }}">
     @csrf
     <div class="row">
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="type" class="form-label">Veículo</label>
-                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="type" name="type" class="form-select">
+                <select {{ Auth::guest() || ($tip && $tip->user_id != Auth::id()) ? 'disabled' : '' }} required
+                    id="type" name="type" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @foreach ($vehicles as $i => $v)
                         <option {{ $tip && $tip->type == $i ? 'selected' : '' }} value="{{ $i }}">
@@ -20,7 +22,8 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="brand" class="form-label">Marca</label>
-                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="brand" name="brand" class="form-select">
+                <select {{ Auth::guest() || ($tip && $tip->user_id != Auth::id()) ? 'disabled' : '' }} {{!$search ? 'required' : '' }}
+                    id="brand" name="brand" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->brand }}</option>@endif
                 </select>
@@ -30,8 +33,9 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="model" class="form-label">Modelo</label>
-                <input type="hidden" name="fipe" id="fipe" value="{{ $tip ? $tip->fipe : ''}}">
-                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="model" name="model" class="form-select">
+                <input type="hidden" name="fipe" id="fipe" value="{{ $tip ? $tip->fipe : '' }}">
+                <select {{ Auth::guest() || ($tip && $tip->user_id != Auth::id()) ? 'disabled' : '' }} {{!$search ? 'required' : '' }}
+                    id="model" name="model" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->model }}</option>@endif
                 </select>
@@ -41,31 +45,38 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="year" class="form-label">Ano</label>
-                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} id="year" name="year" class="form-select">
+                <select {{ Auth::guest() || ($tip && $tip->user_id != Auth::id()) ? 'disabled' : '' }} id="year"
+                    name="year" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->year }}</option>@endif
                 </select>
             </div>
         </div>
 
-        <div class="col-12">
-            <div class="mb-3">
-                <textarea {!! Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled style="color: black"' : '' !!} required name="observation" id="observation" class="form-control" class="col-12"
-                    rows="3">@if ($tip){{ $tip->observation }}@endif</textarea>
+        @if (!$search)
+            <div class="col-12">
+                <div class="mb-3">
+                    <textarea {!! Auth::guest() || ($tip && $tip->user_id != Auth::id()) ? 'disabled style="color: black"' : '' !!} required name="observation" id="observation" class="form-control"
+                        class="col-12" rows="3">@if ($tip){{ $tip->observation }}@endif</textarea>
+                </div>
             </div>
-        </div>
+        @endif
 
-        @auth
+        @if ($search || Auth::user())
             <div class="col-12">
                 <div class="d-flex justify-content-center">
                     @if ($tip)
                         <a href="{{ route('delete.tip', $tip) }}" class="btn btn-danger">Deletar</a>
                     @endif
-                    <button type="button" id="reset" class="btn btn-danger">Limpar</button>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    @if (!$search)
+                        <button type="button" id="reset" class="btn btn-danger">Limpar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    @else
+                        <button type="submit" class="btn btn-primary">Pesquisar</button>
+                    @endif
                 </div>
             </div>
-        @endauth
+        @endif
     </div>
 </form>
 
@@ -123,7 +134,7 @@
             });
         })
 
-        $('#reset').click(function () {
+        $('#reset').click(function() {
             $("#type").val($("#type option:first").val());
             $("#brand").val($("#brand option:first").val());
             $("#model").val($("#model option:first").val());

@@ -10,6 +10,16 @@
                     aria-controls="form-vehicle">
                     Cadastrar Dica
                 </a>
+
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#form-search" role="button" aria-expanded="false"
+                    aria-controls="form-search">
+                    Filtro Avançado
+                    <span class="fui-search"></span>
+                </a>
+            </div>
+
+            <div id="form-search" class="collapse my-3 p-3 bg-light rounded">
+                @include('partials.form.vehicle', ['search' => true])
             </div>
 
             <div id="form-vehicle" class="collapse my-3 p-3 bg-light rounded">

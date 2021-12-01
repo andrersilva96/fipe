@@ -21,6 +21,15 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        return view('home', ['tips' => Helper::paginate(Tip::orderByDesc('id'))]);
+        $tips = Tip::orderByDesc('id');
+
+        if ($data = $request->except('_token')) {
+            if ($request->input('type')) $tips->where('type', $request->input('type'));
+            if ($request->input('brand')) $tips->where('brand', $request->input('brand'));
+            if ($request->input('fipe')) $tips->where('fipe', $request->input('fipe'));
+            if ($request->input('year')) $tips->where('year', $request->input('year'));
+        }
+
+        return view('home', ['tips' => Helper::paginate($tips)]);
     }
 }
