@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-embossed navbar-expand-lg" role="navigation">
+<nav class="navbar navbar-inverse navbar-embossed navbar-expand-lg rounded-0" role="navigation">
     <a class="navbar-brand" href="#">Flat UI</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-01"></button>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
