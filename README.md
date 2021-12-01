@@ -33,11 +33,6 @@ $ composer install --optimize-autoloader --no-dev \
 && php artisan migrate --seed
 ```
 
-Creating a new module:
-
-1. Copy and Paste the Folder from Modules\Example
-2. Inside module.json change the index name to respective module. 
-
 To update prod server please run:
 
 ```
