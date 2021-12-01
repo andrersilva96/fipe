@@ -3,12 +3,12 @@
 @section('content')
     <div class="container">
         @auth
-            <p>
+            <div class="d-flex justify-content-center justify-content-lg-start">
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="#form-vehicle" role="button" aria-expanded="false"
                     aria-controls="form-vehicle">
                     Cadastrar Dica
                 </a>
-            </p>
+            </div>
 
             <div id="form-vehicle" class="collapse my-3 p-3 bg-light rounded">
                 @include('partials.form.vehicle')
@@ -54,9 +54,9 @@
 @endsection
 
 @push('scripts')
-<script>
-    $('.tip').click(function() {
-        window.location.href = $(this).attr('href')
-    })
-</script>
+    <script>
+        $('.tip').click(function() {
+            window.location.href = $(this).attr('href')
+        })
+    </script>
 @endpush
