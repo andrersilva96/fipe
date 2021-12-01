@@ -20,6 +20,7 @@ Route::match(['get', 'post'], '/home', 'HomeController@home')->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/tip/delete/{tip}', 'TipController@delete')->name('delete.tip')->can('owner,tip');
-    Route::get('/tip/{tip}', 'TipController@index')->name('tip');
     Route::post('/tip/{tip}', 'TipController@index')->can('owner,tip');
 });
+
+Route::get('/tip/{tip}', 'TipController@index')->name('tip');

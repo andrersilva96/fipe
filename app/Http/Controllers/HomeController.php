@@ -21,6 +21,6 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        return view('home', ['tips' => Helper::paginate(Tip::all())]);
+        return view('home', ['tips' => Helper::paginate(Tip::orderByDesc('id'))]);
     }
 }

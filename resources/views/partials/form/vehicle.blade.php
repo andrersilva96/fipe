@@ -7,7 +7,7 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="type" class="form-label">Veículo</label>
-                <select required id="type" name="type" class="form-select">
+                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="type" name="type" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @foreach ($vehicles as $i => $v)
                         <option {{ $tip && $tip->type == $i ? 'selected' : '' }} value="{{ $i }}">
@@ -20,7 +20,7 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="brand" class="form-label">Marca</label>
-                <select required id="brand" name="brand" class="form-select">
+                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="brand" name="brand" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->brand }}</option>@endif
                 </select>
@@ -31,7 +31,7 @@
             <div class="mb-3">
                 <label for="model" class="form-label">Modelo</label>
                 <input type="hidden" name="fipe" id="fipe" value="{{ $tip ? $tip->fipe : ''}}">
-                <select required id="model" name="model" class="form-select">
+                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} required id="model" name="model" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->model }}</option>@endif
                 </select>
@@ -41,7 +41,7 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <label for="year" class="form-label">Ano</label>
-                <select id="year" name="year" class="form-select">
+                <select {{ Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled' : '' }} id="year" name="year" class="form-select">
                     <option value="" selected disabled>Selecione uma opção</option>
                     @if ($tip) <option selected>{{ $tip->year }}</option>@endif
                 </select>
@@ -50,20 +50,22 @@
 
         <div class="col-12">
             <div class="mb-3">
-                <textarea required name="observation" id="observation" class="form-control" class="col-12"
+                <textarea {!! Auth::guest() || $tip && $tip->user_id != Auth::id() ? 'disabled style="color: black"' : '' !!} required name="observation" id="observation" class="form-control" class="col-12"
                     rows="3">@if ($tip){{ $tip->observation }}@endif</textarea>
             </div>
         </div>
 
-        <div class="col-12">
-            <div class="d-flex justify-content-center">
-                @if ($tip)
-                    <a href="{{ route('delete.tip', $tip) }}" class="btn btn-danger">Deletar</a>
-                @endif
-                <button type="button" id="reset" class="btn btn-danger">Limpar</button>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+        @auth
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    @if ($tip)
+                        <a href="{{ route('delete.tip', $tip) }}" class="btn btn-danger">Deletar</a>
+                    @endif
+                    <button type="button" id="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
             </div>
-        </div>
+        @endauth
     </div>
 </form>
 
